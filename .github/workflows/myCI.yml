@@ -14,10 +14,25 @@ jobs: #job to execute?
       run: | #run terminal command - pipe to run the various commends sequentially
         ls
         echo Hello!!
+        
+    - name: Telegram Notify
+      uses: appleboy/telegram-action@0.0.3
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ${{ github.actor }} created commit:
+          Commit message: ${{ github.event.commits[0].message }}
+
+          Repository: ${{ github.repository }}
+
+          See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+        
     - name: Setup Go ##action of setup go
       uses: actions/setup-go@v3.2.0 #running go 
       with: 
         go-version: 1.18 #with version 1.18
+        
     - name: Check Go Version
       run: go version 
       

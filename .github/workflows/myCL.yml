@@ -24,6 +24,22 @@ jobs: #job to execute?
     - name: Checkout Repo #this checks out a git repo in the go 
       uses: actions/checkout@v2.4.2
       
+      #private repository here
+#     - name: Checkout Remote Private Repo
+#       uses: actions/checkout@v2.4.2
+#       with:
+#         repository: lowkh2/GoSchoolRemoteExample #goes to a private repository url
+#         token: ${{  secrets.GO_SECRET }}   #uses the token
+#         path: remote #remote folder
+#     - name: Check remote files
+#       run: | #ls to see whats the 
+#         cd remote
+#         ls 
+#         cat myText.txt #print out content of the text file
+#         cd ..
+        
+        
+      
     - name: Check File System
       run: ls
       

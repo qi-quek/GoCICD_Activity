@@ -3,7 +3,7 @@ on: #for event triggering
   push:
     branches: [main] #add with comma for more branches to monitor
   pull_request:
-    branches: [main]
+    branches: [main] #for multiple branches(main is also a branch), [main, xxxfile]
     
 jobs: #job to execute?
   build: #name of the job

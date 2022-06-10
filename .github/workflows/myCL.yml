@@ -45,8 +45,28 @@ jobs: #job to execute?
       
     - name: Install dependencies
       run: |
-        go mod init calc
+        go mod init calc 
         go mod tidy
         go get github.com/franela/goblin
+        go get github.com/tebeka/go2xunit
         go test -v
+        go test -v | go2xunit -output tests.xml
         
+    - name: Publish Test Results #https://github.com/EnricoMi/publish-unit-test-result-action
+      uses: EnricoMi/publish-unit-test-result-action/composite@v1
+      if: always()
+      with:  #for windows user, need "test-results/**/*.xml"
+        files: tests.xml #"test-results/**/*.xml"
+        
+     #https://github.com/nashmaniac/create-issue-action   
+    - if: ${{failure()}} #space between keywords and after, no difference; ${{ failure() }}
+      uses: nashmaniac/create-issue-action@v1.1
+      name: Create Issue Action
+      with:
+        title: Build Failed
+        token: ${{secrets.GITHUB_TOKEN}}
+        assignees: ${{github.actor}}
+        labels: worflow-failed
+        body: Workflow failed for commit ${{github.sha}}
+        
+  

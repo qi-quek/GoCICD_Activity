@@ -45,12 +45,10 @@ jobs: #job to execute?
       
     - name: Install dependencies
       run: |
-        go mod init calc 
-        go mod tidy
         go get github.com/franela/goblin
         go install github.com/tebeka/go2xunit@latest
         go test -v
-        go test -v | go2xunit -output tests.xml
+        go test -v | go2xunit > tests.xml
         
     - name: Publish Test Results #https://github.com/EnricoMi/publish-unit-test-result-action
       uses: EnricoMi/publish-unit-test-result-action/composite@v1
